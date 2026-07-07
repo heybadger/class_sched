@@ -307,16 +307,27 @@
             wrapper.appendChild(decoElement);
         }
         
+        // FIX: Use a wider capture area and proper scaling
         html2canvas(wrapper, {
             scale: 2,
             backgroundColor: '#ffffff',
             allowTaint: false,
             useCORS: true,
             logging: false,
+            width: wrapper.scrollWidth,
+            height: wrapper.scrollHeight,
+            windowWidth: wrapper.scrollWidth,
+            windowHeight: wrapper.scrollHeight,
             onclone: function(clonedDoc) {
                 clonedDoc.querySelectorAll('.course-block .del').forEach(el => {
                     el.style.display = 'none';
                 });
+                // Make sure the cloned wrapper shows full width
+                const clonedWrapper = clonedDoc.getElementById('scheduleWrapper');
+                if (clonedWrapper) {
+                    clonedWrapper.style.overflow = 'visible';
+                    clonedWrapper.style.width = clonedWrapper.scrollWidth + 'px';
+                }
             }
         }).then(canvas => {
             if (decoElement) {
