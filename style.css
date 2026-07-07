@@ -369,11 +369,14 @@ body {
     background: white;
     position: relative;
     -webkit-overflow-scrolling: touch;
+    width: 100%;
 }
 .schedule-grid {
     display: grid;
     grid-template-columns: 65px repeat(7, 1fr);
+    width: 100%;
     min-width: 700px;
+    max-width: 100%;
     font-size: 0.85rem;
 }
 .schedule-title-bar {
