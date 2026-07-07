@@ -1,4 +1,4 @@
-# 📅 Class Sched
+# 📅 BADGER CLASS SCHED MAKER
 
 A clean and beginner-friendly web application for creating, managing, and exporting your weekly class schedule.
 
