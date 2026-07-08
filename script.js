@@ -6,6 +6,8 @@
     const wrapper = document.getElementById("scheduleWrapper");
     const nameInput = document.getElementById("courseName");
     const profInput = document.getElementById("profName");
+    const roomInput = document.getElementById("roomName");
+    const buildingInput = document.getElementById("buildingName");
     const dayCbs = document.querySelectorAll(".day-cb");
     const startInput = document.getElementById("startTime");
     const endInput = document.getElementById("endTime");
@@ -117,7 +119,9 @@
           if (cellCourses.length > 0) {
             cellCourses.forEach(c => {
               const profPart = c.prof ? `<span class="prof-name">${c.prof}</span>` : "";
-              cellHtml += `<div class="course-block">${c.name}<span class="del" data-id="${c.id}">×</span>${profPart}</div>`;
+              const roomPart = c.room ? `<span class="room-name">Room ${c.room}</span>` : "";
+              const buildingPart = c.building ? `<span class="building-name">Building ${c.building}</span>` : "";
+              cellHtml += `<div class="course-block">${c.name}<span class="del" data-id="${c.id}">×</span>${profPart}${roomPart}${buildingPart}</div>`;
             });
           } else {
             cellHtml = `<div class="empty-hint">·</div>`;
@@ -148,10 +152,14 @@
       if (!start || !end) { alert("Please set both start and end time."); return; }
       if (getTimeValue(start) >= getTimeValue(end)) { alert("Start time must be before end time."); return; }
       const prof = profInput.value.trim() || "";
-      courses.push({ id: generateId(), name, prof, days, start, end });
+      const room = roomInput.value.trim() || "";
+      const building = buildingInput.value.trim() || "";
+      courses.push({ id: generateId(), name, prof, room, building, days, start, end });
       render();
       nameInput.value = "";
       profInput.value = "";
+      roomInput.value = "";
+      buildingInput.value = "";
       dayCbs.forEach(cb => cb.checked = false);
       startInput.value = "08:00";
       endInput.value = "09:00";
@@ -201,7 +209,6 @@
       reader.readAsText(file);
     }
   
-    // ----- NOTIFICATION + GIF (2.5 seconds) -----
     function showThankYouNotif() {
       const existing = document.querySelector('.custom-notif-overlay');
       if (existing) existing.remove();
@@ -246,13 +253,11 @@
       `;
       document.body.appendChild(gifOverlay);
   
-      // 2.5 seconds delay (2500ms)
       setTimeout(function() {
         if (gifOverlay.parentNode) gifOverlay.remove();
       }, 2500);
     }
   
-    // ----- save as image -----
     function saveAsImage() {
       if (courses.length === 0) { 
         alert("Add some courses first before saving as image.");
@@ -306,7 +311,6 @@
       });
     }
   
-    // ----- user image helpers -----
     function addUserImage() {
       const file = userImageInput.files[0];
       if (!file) { alert("Please select an image file first."); return; }
@@ -332,7 +336,6 @@
     addUserImageBtn3.addEventListener('click', addUserImage);
     clearUserImageBtn.addEventListener('click', clearUserImages);
   
-    // ----- main event listeners -----
     addBtn.addEventListener("click", addCourseFromForm);
     clearAllBtn.addEventListener("click", clearAll);
     exportBtn.addEventListener("click", exportSchedule);
@@ -346,6 +349,12 @@
       if (e.key === "Enter") { e.preventDefault(); const hasSelected = Array.from(dayCbs).some(cb => cb.checked); if (!hasSelected) document.querySelector('.day-check input[value="Mon"]').checked = true; addCourseFromForm(); }
     });
     profInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { e.preventDefault(); const hasSelected = Array.from(dayCbs).some(cb => cb.checked); if (!hasSelected) document.querySelector('.day-check input[value="Mon"]').checked = true; addCourseFromForm(); }
+    });
+    roomInput.addEventListener("keydown", function(e) {
+      if (e.key === "Enter") { e.preventDefault(); const hasSelected = Array.from(dayCbs).some(cb => cb.checked); if (!hasSelected) document.querySelector('.day-check input[value="Mon"]').checked = true; addCourseFromForm(); }
+    });
+    buildingInput.addEventListener("keydown", function(e) {
       if (e.key === "Enter") { e.preventDefault(); const hasSelected = Array.from(dayCbs).some(cb => cb.checked); if (!hasSelected) document.querySelector('.day-check input[value="Mon"]').checked = true; addCourseFromForm(); }
     });
     startInput.addEventListener("keydown", function(e) { if (e.key === "Enter") addCourseFromForm(); });
