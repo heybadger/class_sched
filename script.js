@@ -20,7 +20,6 @@
   const beginnerTip = document.getElementById("beginnerTip");
   const splashScreen = document.getElementById("splashScreen");
   
-  // Get all 5 image selectors
   const bgImage1 = document.getElementById("bgImage1");
   const bgImage2 = document.getElementById("bgImage2");
   const bgImage3 = document.getElementById("bgImage3");
@@ -52,58 +51,61 @@
   function getBackgroundImages() {
     const images = [];
     const positions = ['top-right', 'top-left', 'center', 'bottom-right', 'bottom-left'];
-    
     bgImageSelectors.forEach((selector, index) => {
       const value = selector.value;
       if (value !== 'none') {
-        images.push({
-          src: value,
-          position: positions[index]
-        });
+        images.push({ src: value, position: positions[index] });
       }
     });
-    
     return images;
   }
 
-  function renderUserImages() {
+  // REMOVE ALL EXISTING IMAGES FIRST
+  function clearAllImages() {
     document.querySelectorAll('.user-deco-img').forEach(el => el.remove());
-    
+  }
+
+  function renderUserImages() {
+    clearAllImages(); // Clear first
     const images = getBackgroundImages();
-    
     images.forEach(imgData => {
       const img = document.createElement('img');
       img.src = imgData.src;
       img.className = 'user-deco-img';
-      img.dataset.id = 'bg-image-' + Date.now();
-      const pos = imgData.position;
-      
-      // Reset all positioning
-      img.style.top = 'auto';
-      img.style.right = 'auto';
-      img.style.bottom = 'auto';
-      img.style.left = 'auto';
-      img.style.transform = 'none';
+      img.style.position = 'absolute';
+      img.style.pointerEvents = 'none';
+      img.style.zIndex = '5';
+      img.style.objectFit = 'contain';
+      img.style.borderRadius = '12px';
       img.style.opacity = '0.25';
       img.style.maxWidth = '150px';
       img.style.maxHeight = '150px';
       
+      const pos = imgData.position;
       switch(pos) {
         case 'top-right':
           img.style.top = '10px';
           img.style.right = '10px';
+          img.style.left = 'auto';
+          img.style.bottom = 'auto';
           break;
         case 'top-left':
           img.style.top = '10px';
           img.style.left = '10px';
+          img.style.right = 'auto';
+          img.style.bottom = 'auto';
           break;
         case 'bottom-right':
           img.style.bottom = '10px';
           img.style.right = '10px';
+          img.style.top = 'auto';
+          img.style.left = 'auto';
           break;
         case 'bottom-left':
           img.style.bottom = '10px';
           img.style.left = '10px';
+          img.style.top = 'auto';
+          img.style.right = 'auto';
           break;
         case 'center':
           img.style.top = '50%';
@@ -246,7 +248,6 @@
   function showThankYouNotif() {
     const existing = document.querySelector('.custom-notif-overlay');
     if (existing) existing.remove();
-
     const overlay = document.createElement('div');
     overlay.className = 'custom-notif-overlay';
     overlay.innerHTML = `
@@ -261,7 +262,6 @@
       </div>
     `;
     document.body.appendChild(overlay);
-
     document.getElementById('notifCloseBtn').addEventListener('click', function() {
       overlay.remove();
       showGifPopup();
@@ -277,7 +277,6 @@
   function showGifPopup() {
     const existingGif = document.querySelector('.gif-popup-overlay');
     if (existingGif) existingGif.remove();
-
     const gifOverlay = document.createElement('div');
     gifOverlay.className = 'gif-popup-overlay';
     gifOverlay.innerHTML = `
@@ -286,7 +285,6 @@
       </div>
     `;
     document.body.appendChild(gifOverlay);
-
     setTimeout(function() {
       if (gifOverlay.parentNode) gifOverlay.remove();
     }, 2500);
@@ -298,44 +296,54 @@
       return; 
     }
     
+    // Hide delete buttons
     document.querySelectorAll(".course-block .del").forEach(el => el.style.display = "none");
     
+    // FIRST: Remove ALL existing images from wrapper
+    clearAllImages();
+    
+    // Get images to add
     const images = getBackgroundImages();
     const imageElements = [];
     
+    // Add images to wrapper for screenshot (ONLY ONCE)
     images.forEach(imgData => {
       const img = document.createElement('img');
       img.src = imgData.src;
-      img.style.cssText = `position:absolute; pointer-events:none; z-index:5; object-fit:contain; border-radius:12px;`;
-      
-      const pos = imgData.position;
-      
-      // Default styles
-      img.style.top = 'auto';
-      img.style.right = 'auto';
-      img.style.bottom = 'auto';
-      img.style.left = 'auto';
-      img.style.transform = 'none';
+      img.style.position = 'absolute';
+      img.style.pointerEvents = 'none';
+      img.style.zIndex = '5';
+      img.style.objectFit = 'contain';
+      img.style.borderRadius = '12px';
       img.style.opacity = '0.2';
       img.style.maxWidth = '150px';
       img.style.maxHeight = '150px';
       
+      const pos = imgData.position;
       switch(pos) {
         case "top-right":
           img.style.top = "15px";
           img.style.right = "20px";
+          img.style.left = "auto";
+          img.style.bottom = "auto";
           break;
         case "top-left":
           img.style.top = "15px";
           img.style.left = "20px";
+          img.style.right = "auto";
+          img.style.bottom = "auto";
           break;
         case "bottom-right":
           img.style.bottom = "15px";
           img.style.right = "20px";
+          img.style.top = "auto";
+          img.style.left = "auto";
           break;
         case "bottom-left":
           img.style.bottom = "15px";
           img.style.left = "20px";
+          img.style.top = "auto";
+          img.style.right = "auto";
           break;
         case "center":
           img.style.top = "50%";
@@ -346,40 +354,50 @@
           img.style.opacity = "0.1";
           break;
       }
-      wrapper.style.position = "relative";
       wrapper.appendChild(img);
       imageElements.push(img);
     });
-    
-    html2canvas(wrapper, {
-      scale: 2,
-      backgroundColor: "#ffffff",
-      allowTaint: false,
-      useCORS: true,
-      logging: false,
-      width: wrapper.scrollWidth,
-      height: wrapper.scrollHeight,
-      windowWidth: wrapper.scrollWidth,
-      windowHeight: wrapper.scrollHeight,
-      onclone: function(clonedDoc) {
-        clonedDoc.querySelectorAll(".course-block .del").forEach(el => el.style.display = "none");
-        const clonedWrapper = clonedDoc.getElementById("scheduleWrapper");
-        if (clonedWrapper) { clonedWrapper.style.overflow = "visible"; clonedWrapper.style.width = clonedWrapper.scrollWidth + "px"; }
-      }
-    }).then(canvas => {
-      imageElements.forEach(img => img.remove());
-      document.querySelectorAll(".course-block .del").forEach(el => el.style.display = "");
-      const link = document.createElement("a");
-      const title = getScheduleTitle().replace(/[^a-zA-Z0-9]/g, "_");
-      link.download = title + "_" + new Date().toISOString().slice(0,10) + ".png";
-      link.href = canvas.toDataURL("image/png");
-      link.click();
-      showThankYouNotif();
-    }).catch(err => {
-      imageElements.forEach(img => img.remove());
-      document.querySelectorAll(".course-block .del").forEach(el => el.style.display = "");
-      alert("Failed to generate image: " + err.message);
-    });
+
+    // Wait a moment for images to render
+    setTimeout(function() {
+      html2canvas(wrapper, {
+        scale: 3,
+        backgroundColor: "#ffffff",
+        allowTaint: false,
+        useCORS: true,
+        logging: false,
+        width: wrapper.scrollWidth,
+        height: wrapper.scrollHeight,
+        windowWidth: wrapper.scrollWidth,
+        windowHeight: wrapper.scrollHeight,
+        onclone: function(clonedDoc) {
+          clonedDoc.querySelectorAll(".course-block .del").forEach(el => el.style.display = "none");
+          const clonedWrapper = clonedDoc.getElementById("scheduleWrapper");
+          if (clonedWrapper) { 
+            clonedWrapper.style.overflow = "visible"; 
+            clonedWrapper.style.width = clonedWrapper.scrollWidth + "px";
+          }
+        }
+      }).then(canvas => {
+        // Remove temporary images
+        imageElements.forEach(img => img.remove());
+        // Restore original images
+        renderUserImages();
+        document.querySelectorAll(".course-block .del").forEach(el => el.style.display = "");
+        
+        const link = document.createElement("a");
+        const title = getScheduleTitle().replace(/[^a-zA-Z0-9]/g, "_");
+        link.download = title + "_" + new Date().toISOString().slice(0,10) + ".png";
+        link.href = canvas.toDataURL("image/png", 1.0);
+        link.click();
+        showThankYouNotif();
+      }).catch(err => {
+        imageElements.forEach(img => img.remove());
+        renderUserImages();
+        document.querySelectorAll(".course-block .del").forEach(el => el.style.display = "");
+        alert("Failed to generate image: " + err.message);
+      });
+    }, 300);
   }
 
   addBtn.addEventListener("click", addCourseFromForm);
@@ -391,7 +409,6 @@
   imageBtn.addEventListener("click", saveAsImage);
   titleInput.addEventListener("input", render);
   
-  // Add event listeners for all 5 image selectors
   bgImageSelectors.forEach(selector => {
     selector.addEventListener('change', render);
   });
@@ -413,6 +430,5 @@
 
   courses = [];
   render();
-
   setTimeout(function() { splashScreen.style.display = "none"; }, 3000);
 })();
