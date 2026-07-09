@@ -132,63 +132,62 @@
       </div>
 
       <div class="image-options" id="imageOptions">
-        <div class="option-group">
-          <label for="decoStyle">Decoration</label>
-          <select id="decoStyle">
-            <option value="none">None</option>
-            <option value="🌸" selected>🌸 Flower</option>
-            <option value="🎀">🎀 Ribbon</option>
-            <option value="✨">✨ Sparkle</option>
-            <option value="💐">💐 Bouquet</option>
-            <option value="🌷">🌷 Tulip</option>
-            <option value="🌈">🌈 Rainbow</option>
-            <option value="⭐">⭐ Star</option>
-            <option value="🌙">🌙 Moon</option>
-            <option value="🍀">🍀 Clover</option>
-            <option value="🦋">🦋 Butterfly</option>
-            <option value="🐱">🐱 Kitty</option>
-            <option value="🎵">🎵 Music</option>
-            <option value="📚">📚 Books</option>
-          </select>
-        </div>
-        <div class="option-group">
-          <label for="decoPosition">Position</label>
-          <select id="decoPosition">
-            <option value="top-right" selected>Top Right</option>
-            <option value="top-left">Top Left</option>
-            <option value="bottom-right">Bottom Right</option>
-            <option value="bottom-left">Bottom Left</option>
-            <option value="center">Center (Watermark)</option>
-          </select>
-        </div>
-        <div class="option-group">
-          <label for="customDeco">Custom</label>
-          <input
-            type="text"
-            id="customDeco"
-            placeholder="Add your own"
-            maxlength="5"
-          />
-          <span class="deco-preview" id="decoPreview">🌸</span>
-        </div>
-
         <div class="img-upload-group">
-          <label>Add Image</label>
-          <input type="file" id="userImageInput" accept="image/*" />
-          <label class="file-btn" for="userImageInput">Choose</label>
-          <select id="userImagePosition" class="position-select">
-            <option value="top-right">Top Right</option>
-            <option value="top-left" selected>Top Left</option>
-            <option value="bottom-right">Bottom Right</option>
-            <option value="bottom-left">Bottom Left</option>
-            <option value="center">Center</option>
-          </select>
-          <button class="btn-img" id="addUserImageBtn1">Add #1</button>
-          <button class="btn-img" id="addUserImageBtn2">Add #2</button>
-          <button class="btn-img" id="addUserImageBtn3">Add #3</button>
-          <button class="btn-img-danger" id="clearUserImageBtn">
-            Clear All
-          </button>
+          <div class="image-selector">
+            <label>Image 1 - Top Right</label>
+            <select id="bgImage1" class="bg-image-select">
+              <option value="none">None</option>
+              <option value="media/bg1.png">Background 1</option>
+              <option value="media/bg2.png">Background 2</option>
+              <option value="media/bg3.png">Background 3</option>
+              <option value="media/bg4.png">Background 4</option>
+              <option value="media/bg5.png">Background 5</option>
+            </select>
+          </div>
+          <div class="image-selector">
+            <label>Image 2 - Top Left</label>
+            <select id="bgImage2" class="bg-image-select">
+              <option value="none">None</option>
+              <option value="bg1,png">Background 1</option>
+              <option value="media/bg2.png">Background 2</option>
+              <option value="media/bg3.png">Background 3</option>
+              <option value="media/bg4.png">Background 4</option>
+              <option value="media/bg5.png">Background 5</option>
+            </select>
+          </div>
+          <div class="image-selector">
+            <label>Image 3 - Center</label>
+            <select id="bgImage3" class="bg-image-select">
+              <option value="none">None</option>
+              <option value="bg1,png">Background 1</option>
+              <option value="media/bg2.png">Background 2</option>
+              <option value="media/bg3.png">Background 3</option>
+              <option value="media/bg4.png">Background 4</option>
+              <option value="media/bg5.png">Background 5</option>
+            </select>
+          </div>
+          <div class="image-selector">
+            <label>Image 4 - Bottom Right</label>
+            <select id="bgImage4" class="bg-image-select">
+              <option value="none">None</option>
+              <option value="bg1,png">Background 1</option>
+              <option value="media/bg2.png">Background 2</option>
+              <option value="media/bg3.png">Background 3</option>
+              <option value="media/bg4.png">Background 4</option>
+              <option value="media/bg5.png">Background 5</option>
+            </select>
+          </div>
+          <div class="image-selector">
+            <label>Image 5 - Bottom Left</label>
+            <select id="bgImage5" class="bg-image-select">
+              <option value="none">None</option>
+              <option value="bg1,png">Background 1</option>
+              <option value="media/bg2.png">Background 2</option>
+              <option value="media/bg3.png">Background 3</option>
+              <option value="media/bg4.png">Background 4</option>
+              <option value="media/bg5.png">Background 5</option>
+            </select>
+          </div>
         </div>
       </div>
 
