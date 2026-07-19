@@ -267,9 +267,9 @@
           <div class="custom-notif-box">
               <div class="notif-emoji">🌸</div>
               <div class="notif-msg">
-                  Salamat sa pag gamit hehe^^<br>
-                  sana nagustuhan mo yung simple<br>
-                  class sched maker mo na itech nhak
+                  Thanks for using<br>
+                  my simple class sched maker<br>
+                  check my github for more works
               </div>
               <button class="notif-close" id="notifCloseBtn">✕</button>
           </div>
