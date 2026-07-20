@@ -2,194 +2,645 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes"
+      name="description"
+      content="Joseph Comia - Full-stack & APP Developer"
     />
-    <title>Badger's Class Sched Maker</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    />
     <link rel="stylesheet" href="style.css" />
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico" />
+    <title>Joseph Comia — Full-Stack & APP Developer</title>
   </head>
   <body>
-    <div class="splash-screen" id="splashScreen">
-      <div class="splash-content">
-        <div class="hello-kitty">
-          <img
-            src="media/Aye_SIR_-removebg-preview.png"
-            alt="Hello Kitty"
-            class="kitty-img"
-          />
+    <aside class="sidebar" role="navigation" aria-label="Main navigation">
+      <div>
+        <div
+          class="theme-toggle-group"
+          role="group"
+          aria-label="Theme controls"
+        >
+          <button
+            class="theme-toggle-btn active"
+            id="lightBtn"
+            aria-label="Light mode"
+          >
+            <i class="fas fa-sun"></i>
+          </button>
+          <button class="theme-toggle-btn" id="darkBtn" aria-label="Dark mode">
+            <i class="fas fa-moon"></i>
+          </button>
         </div>
-        <h2 class="splash-title">Badger's Class Sched Maker</h2>
-        <p class="splash-sub">Create, Edit, Delete Class Schedules</p>
-      </div>
-    </div>
 
-    <div class="container" id="scheduleContainer">
-      <div class="header-section">
-        <div class="header-main">
-          <h1>Badger's <span>Class Sched</span> Maker</h1>
-        </div>
-        <div class="title-row">
-          <div class="title-input-wrapper">
-            <label for="scheduleTitle">Title</label>
-            <input type="text" id="scheduleTitle" placeholder="Title Here" />
-          </div>
-        </div>
-        <div class="header-sub">
-          <div class="subhead">Create your class sched below</div>
-        </div>
+        <nav class="sidebar-nav">
+          <a href="#home" class="nav-link active" data-section="home">Home</a>
+          <a href="#skills" class="nav-link" data-section="skills">Skills</a>
+          <a href="#portfolio" class="nav-link" data-section="portfolio"
+            >Portfolio</a
+          >
+          <a href="#live" class="nav-link" data-section="live">Live Projects</a>
+          <a href="#services" class="nav-link" data-section="services"
+            >Services</a
+          >
+        </nav>
       </div>
 
-      <div class="beginner-tip" id="beginnerTip">
-        <span class="tip-icon">💡</span>
-        <span class="tip-text"
-          ><strong>Quick start:</strong>Add the name of the subject, pick the
-          date and time, then click <strong>Add Course</strong></span
+      <div class="sidebar-bottom">
+        <p
+          style="
+            font-size: 1.2rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+          "
+        >
+          &copy; For work, collabs & everything else, reach me at <br />
+          <i class="fas fa-envelope"></i> theeasybadger@gmail.com
+        </p>
+      </div>
+    </aside>
+
+    <button class="hamburger" id="hamburgerBtn" aria-label="Open menu">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <div class="mobile-overlay" id="mobileOverlay"></div>
+
+    <nav
+      class="mobile-drawer"
+      id="mobileDrawer"
+      role="navigation"
+      aria-label="Mobile navigation"
+    >
+      <button class="drawer-close" id="mobileClose" aria-label="Close menu">
+        ✕
+      </button>
+
+      <div class="drawer-theme-toggle" role="group" aria-label="Theme controls">
+        <button
+          class="theme-toggle-btn active"
+          id="mobileLightBtn"
+          aria-label="Light mode"
+        >
+          <i class="fas fa-sun"></i>
+        </button>
+        <button
+          class="theme-toggle-btn"
+          id="mobileDarkBtn"
+          aria-label="Dark mode"
+        >
+          <i class="fas fa-moon"></i>
+        </button>
+      </div>
+
+      <div class="drawer-nav">
+        <a href="#home" class="nav-link-mobile active" data-section="home"
+          >Home</a
+        >
+        <a href="#skills" class="nav-link-mobile" data-section="skills"
+          >Skills</a
+        >
+        <a href="#portfolio" class="nav-link-mobile" data-section="portfolio"
+          >Portfolio</a
+        >
+        <a href="#services" class="nav-link-mobile" data-section="services"
+          >Services</a
         >
       </div>
 
-      <div class="toolbar">
-        <button class="btn btn-danger" id="clearAllBtn">Clear All</button>
-        <button class="btn btn-primary" id="exportBtn">Export</button>
-        <label class="file-input-label" for="importInput">Import</label>
-        <input type="file" id="importInput" accept=".json" />
-        <span class="spacer"></span>
-        <span class="toolbar-hint">Click × to remove a course</span>
-      </div>
-
-      <div class="entry-panel" id="entryForm">
-        <div class="field" style="flex: 1.4">
-          <label for="courseName">Course Name</label>
-          <input
-            type="text"
-            id="courseName"
-            placeholder="Course Name"
-            value=""
-          />
-        </div>
-        <div class="field" style="flex: 1.2">
-          <label for="sectionName">Section</label>
-          <input type="text" id="sectionName" placeholder="Section" value="" />
-        </div>
-        <div class="field" style="flex: 0.8">
-          <label for="roomName">Room #</label>
-          <input type="text" id="roomName" placeholder="Room #" value="" />
-        </div>
-        <div class="field" style="flex: 0.8">
-          <label for="buildingName">Building #</label>
-          <input
-            type="text"
-            id="buildingName"
-            placeholder="Building #"
-            value=""
-          />
-        </div>
-        <div class="field field-days">
-          <label>Days</label>
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Mon" /> Mon</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Tue" /> Tue</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Wed" /> Wed</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Thu" /> Thu</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Fri" /> Fri</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Sat" /> Sat</label
-          >
-          <label class="day-check"
-            ><input type="checkbox" class="day-cb" value="Sun" /> Sun</label
-          >
-        </div>
-        <div class="field" style="flex: 0.8">
-          <label for="startTime">Start</label>
-          <input type="time" id="startTime" value="08:00" />
-        </div>
-        <div class="field" style="flex: 0.8">
-          <label for="endTime">End</label>
-          <input type="time" id="endTime" value="09:00" />
-        </div>
-        <button class="btn-add" id="addBtn">Add Course</button>
-      </div>
-
-      <div class="schedule-wrapper" id="scheduleWrapper">
-        <div class="schedule-grid" id="scheduleGrid"></div>
-      </div>
-
-      <div class="image-options" id="imageOptions">
-        <div class="img-upload-group">
-          <div class="image-selector">
-            <label>Image 1 - Top Right</label>
-            <select id="bgImage1" class="bg-image-select">
-              <option value="none">None</option>
-              <option value="media/bg1.png">Background 1</option>
-              <option value="media/bg2.png">Background 2</option>
-              <option value="media/bg3.png">Background 3</option>
-              <option value="media/bg4.png">Background 4</option>
-              <option value="media/bg5.png">Background 5</option>
-            </select>
-          </div>
-          <div class="image-selector">
-            <label>Image 2 - Top Left</label>
-            <select id="bgImage2" class="bg-image-select">
-              <option value="none">None</option>
-              <option value="media/bg1.png">Background 1</option>
-              <option value="media/bg2.png">Background 2</option>
-              <option value="media/bg3.png">Background 3</option>
-              <option value="media/bg4.png">Background 4</option>
-              <option value="media/bg5.png">Background 5</option>
-            </select>
-          </div>
-          <div class="image-selector">
-            <label>Image 3 - Center</label>
-            <select id="bgImage3" class="bg-image-select">
-              <option value="none">None</option>
-              <option value="media/bg1.png">Background 1</option>
-              <option value="media/bg2.png">Background 2</option>
-              <option value="media/bg3.png">Background 3</option>
-              <option value="media/bg4.png">Background 4</option>
-              <option value="media/bg5.png">Background 5</option>
-            </select>
-          </div>
-          <div class="image-selector">
-            <label>Image 4 - Bottom Right</label>
-            <select id="bgImage4" class="bg-image-select">
-              <option value="none">None</option>
-              <option value="media/bg1.png">Background 1</option>
-              <option value="media/bg2.png">Background 2</option>
-              <option value="media/bg3.png">Background 3</option>
-              <option value="media/bg4.png">Background 4</option>
-              <option value="media/bg5.png">Background 5</option>
-            </select>
-          </div>
-          <div class="image-selector">
-            <label>Image 5 - Bottom Left</label>
-            <select id="bgImage5" class="bg-image-select">
-              <option value="none">None</option>
-              <option value="media/bg1.png">Background 1</option>
-              <option value="media/bg2.png">Background 2</option>
-              <option value="media/bg3.png">Background 3</option>
-              <option value="media/bg4.png">Background 4</option>
-              <option value="media/bg5.png">Background 5</option>
-            </select>
-          </div>
+      <div class="drawer-bottom">
+        <p
+          style="
+            font-size: 1.3rem;
+            color: var(--color-text-muted);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+          "
+        >
+          &copy; For work, collabs & everything else, reach me at <br />
+          <i class="fas fa-envelope"></i> theeasybadger@gmail.com
+        </p>
+        <div class="drawer-social">
+          <a href="https://www.instagram.com/himjco/" aria-label="Instagram"
+            ><i class="fa-brands fa-instagram"></i
+          ></a>
+          <a href="https://github.com/heybadger" aria-label="GitHub"
+            ><i class="fa-brands fa-github"></i
+          ></a>
+          <a
+            href="https://www.linkedin.com/in/mark-comia-54248341a/"
+            aria-label="LinkedIn"
+            ><i class="fa-brands fa-linkedin"></i
+          ></a>
         </div>
       </div>
+    </nav>
 
-      <div class="footer-actions">
-        <button class="btn btn-image" id="imageBtn">Save as Image</button>
-      </div>
-    </div>
+    <main class="main-content">
+      <section id="home" class="section visible">
+        <div class="hero-grid">
+          <div class="hero-image-wrapper">
+            <img
+              src="images/main.png"
+              alt="Mark Joseph Comia"
+              class="profile-image"
+            />
+          </div>
 
-    <div class="site-footer"><span>All credits to Badger</span></div>
+          <div class="hero-content">
+            <h1 class="hero-name">Mark Joseph<br /><span>Comia</span></h1>
+            <!--  <p class="hero-subtitle">Full-Stack Developer</p> -->
+            <p class="hero-description">
+              I build modern websites and web applications with a focus on clean
+              design, performance, and great user experiences. Right now I'm
+              building new projects, learning modern technologies, and turning
+              ideas into digital products people can actually use.
+            </p>
+
+            <div class="hero-social-icons">
+              <a href="https://github.com/heybadger" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/mark-comia-54248341a/"
+                aria-label="LinkedIn"
+              >
+                <i class="fa-brands fa-linkedin"></i>
+              </a>
+              <a
+                href="https://www.instagram.com/himjco.wav/"
+                aria-label="Instagram"
+              >
+                <i class="fa-brands fa-instagram"></i>
+              </a>
+            </div>
+
+            <!--  <a
+              href="resume/Mark_Joseph_Comia_Resume.pdf"
+              class="hero-resume-btn"
+              download
+            >
+              <i class="fas fa-file-pdf"></i> Download Resume
+            </a> -->
+
+            <div class="hero-stats">
+              <div class="stat-item">
+                <span class="number">4+</span>
+                <span class="label">Projects</span>
+              </div>
+              <div class="stat-item">
+                <span class="number" id="repoCount">Loading...</span>
+                <span class="label">Repositories</span>
+              </div>
+              <div class="stat-item">
+                <span class="number" id="followerCount">Loading...</span>
+                <span class="label">Followers</span>
+              </div>
+              <div class="stat-item">
+                <span class="number" id="starCount">Loading...</span>
+                <span class="label">Stars</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <span class="section-label">Skills &amp; Expertise</span>
+
+        <div class="skills-grid">
+          <div class="skill-category">
+            <h3><i class="fas fa-laptop-code"></i> Frontend</h3>
+            <div class="skill-item">
+              <div class="skill-label"><span>HTML5</span><span>95%</span></div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 95%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>CSS3 / Tailwind</span><span>88%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 88%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>JavaScript (ES6+)</span><span>82%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 82%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label"><span>React</span><span>30%</span></div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 30%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3><i class="fas fa-server"></i> Backend</h3>
+            <div class="skill-item">
+              <div class="skill-label"><span>Java</span><span>65%</span></div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 65%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label"><span>Dart</span><span>55%</span></div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 55%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>Git / GitHub</span><span>80%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 80%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>REST APIs</span><span>30%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 30%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="skill-category">
+            <h3><i class="fas fa-paint-brush"></i> Design &amp; More</h3>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>Canva / UI Design</span><span>75%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 75%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>Responsive Design</span><span>90%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 90%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>Performance Opt.</span><span>68%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 68%"></div>
+              </div>
+            </div>
+            <div class="skill-item">
+              <div class="skill-label">
+                <span>SQL (MySQL)</span><span>55%</span>
+              </div>
+              <div class="skill-bar-track">
+                <div class="skill-bar-fill" style="width: 55%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="tools-toggle-wrapper">
+          <button class="toggle-btn" id="toolsToggleBtn">
+            View Tools
+            <i
+              class="fas fa-chevron-down"
+              style="margin-left: 0.6rem; font-size: 1rem"
+            ></i>
+          </button>
+          <div class="toggle-container" id="toolsContainer">
+            <div class="tools-grid">
+              <div class="tool-item">
+                <i class="fas fa-code"></i
+                ><span class="tool-name">VS Code</span>
+              </div>
+              <div class="tool-item">
+                <i class="fas fa-database"></i
+                ><span class="tool-name">HeidiSQL</span>
+              </div>
+              <div class="tool-item">
+                <i class="fas fa-database"></i
+                ><span class="tool-name">PHPMyAdmin</span>
+              </div>
+              <div class="tool-item">
+                <i class="fab fa-git-alt"></i><span class="tool-name">Git</span>
+              </div>
+              <div class="tool-item">
+                <i class="fab fa-github"></i
+                ><span class="tool-name">GitHub Desktop</span>
+              </div>
+              <div class="tool-item">
+                <i class="fas fa-database"></i
+                ><span class="tool-name">MySQL Workbench</span>
+              </div>
+              <div class="tool-item">
+                <i class="fas fa-bolt"></i><span class="tool-name">XAMPP</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+        <section id="portfolio" class="section">
+          <span class="section-label">Portfolio</span>
+          <h2 style="font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem">
+            My Work
+          </h2>
+          <p
+            style="
+              font-size: 1.6rem;
+              color: var(--color-text-muted);
+              margin-bottom: 2.5rem;
+            "
+          >
+            Projects I've built and contributed to
+          </p>
+  
+          <div class="projects-grid">
+            <div class="project-card">
+              <img src="images/project1.jpg" alt="RemiNotes project" />
+              <div class="project-body">
+                <h3>RemiNotes</h3>
+                <p>
+                  A smart productivity tool designed to capture ideas, manage
+                  daily tasks, and never miss a deadline.
+                </p>
+              </div>
+            </div>
+  
+            <div class="project-card">
+              <img
+                src="images/project2.jpg"
+                alt="Philippines Weather System project"
+              />
+              <div class="project-body">
+                <h3>Philippines Weather System</h3>
+                <p>
+                  A real-time weather dashboard delivering accurate forecasts,
+                  temperature tracking, and severe weather alerts.
+                </p>
+              </div>
+            </div>
+  
+            <div class="project-card">
+              <img src="images/project3.jpg" alt="Restaurant Website project" />
+              <div class="project-body">
+                <h3>Restaurant Website</h3>
+                <p>
+                  A fully responsive restaurant website that brings authentic
+                  Filipino cuisine to life online.
+                </p>
+              </div>
+            </div>
+
+            <div class="project-card">
+              <img src="images/project5.jpg" alt="Simple Class Schedule Maker" />
+              <div class="project-body">
+                <h3>Simple Class Schedule Maker</h3>
+                <p>
+                  A responsive scheduling application that simplifies timetable creation with a clean and intuitive interface.
+                </p>
+              </div>
+            </div>
+  
+            <div class="project-card">
+              <img
+                src="images/project4.jpg"
+                alt="Library Attendance System project"
+              />
+              <div class="project-body">
+                <h3>Library Attendance System</h3>
+                <p>
+                  A complete library management solution that automates visitor
+                  registration and tracks attendance.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="github-section">
+            <div class="github-header">
+              <span class="username"
+                ><i class="fab fa-github"></i> heybadger</span
+              >
+            </div>
+  
+            <div
+              id="githubContributionGrid"
+              class="github-contribution-grid"
+            ></div>
+  
+            <div class="github-summary">
+              <span class="contributions-count" id="totalContributions"
+                >Loading contributions...</span
+              >
+              <span class="legend">
+                <span>Less</span>
+                <span class="dot"></span>
+                <span class="dot low"></span>
+                <span class="dot mid"></span>
+                <span class="dot active"></span>
+                <span>More</span>
+              </span>
+            </div>
+          </div>
+  
+          <div class="testimonials-toggle-wrapper">
+            <button class="toggle-btn" id="testimonialsToggleBtn">
+              <i class="fas fa-quote-left"></i> Feedbacks
+              <i
+                class="fas fa-chevron-down"
+                style="margin-left: 0.6rem; font-size: 1rem"
+              ></i>
+            </button>
+            <div class="toggle-container" id="testimonialsContainer">
+              <div class="testimonials-grid">
+                <div class="testimonial-card">
+                  <p class="quote">
+                    "Mark is a well professional and fast developer."
+                  </p>
+                  <p class="author">— Client</p>
+                </div>
+                <div class="testimonial-card">
+                  <p class="quote">
+                    "Working with Mark was a pleasure. He helped us with our
+                    library system requirements for school."
+                  </p>
+                  <p class="author">— Client</p>
+                </div>
+                <div class="testimonial-card">
+                  <p class="quote">
+                    "Mark here is a fast and reliable UI/UX Designer. He helped us
+                    to create a visually appealing interface."
+                  </p>
+                  <p class="author">— Client</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <section id="live" class="section">
+            <span class="section-label">Live Projects</span>
+            <h2 style="font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem">
+              My Live Projects
+            </h2>
+            <p
+              style="
+                font-size: 1.6rem;
+                color: var(--color-text-muted);
+                margin-bottom: 2.5rem;
+              "
+            >
+              Here is my current live projects that you can access in the internet
+            </p>
+    
+            <div class="projects-grid">
+              <div class="project-card">
+                <img src="images/project1.jpg" alt="RemiNotes project" />
+                <div class="project-body">
+                  <h3>RemiNotes</h3>
+                  <p>
+                    Link: On Maintenace
+                  </p>
+                </div>
+              </div>
+    
+              <div class="project-card">
+                <img
+                  src="images/project2.jpg"
+                  alt="Philippines Weather System project"
+                />
+                <div class="project-body">
+                  <h3>Philippines Weather System</h3>
+                  <p>
+                    Link: On Maintenace
+                  </p>
+                </div>
+              </div>
+    
+              <div class="project-card">
+                <img src="images/project3.jpg" alt="Restaurant Website project" />
+                <div class="project-body">
+                  <h3>Restaurant Website</h3>
+                  <p>
+                    Link: https://lamesamenu.vercel.app/
+                  </p>
+                </div>
+              </div>
+
+              <div class="project-card">
+                <img src="images/project5.jpg" alt="Simple Class Schedule Maker" />
+                <div class="project-body">
+                  <h3>Simple Class Schedule Maker</h3>
+                  <p>
+                    Link: https://badger-classsched-maker.vercel.app/
+                  </p>
+                </div>
+              </div>
+    
+              <div class="project-card">
+                <img
+                  src="images/project4.jpg"
+                  alt="Library Attendance System project"
+                />
+                <div class="project-body">
+                  <h3>Library Attendance System</h3>
+                  <p>
+                    Link: On Maintenace
+                  </p>
+                </div>
+              </div>
+            </div>
+          </section>
+
+
+      <section id="services" class="section">
+        <span class="section-label">Services</span>
+        <h2 style="font-size: 2.8rem; font-weight: 600; margin-bottom: 0.5rem">
+          What I Offer
+        </h2>
+        <p
+          style="
+            font-size: 1.6rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2.5rem;
+          "
+        >
+          Modern, high-quality web solutions tailored to your needs
+        </p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <span class="icon"><i class="fas fa-code"></i></span>
+            <h3>Full-Stack Web Development</h3>
+            <p>
+              I build modern, responsive, and scalable websites from the ground
+              up using current web technologies. My focus is creating fast,
+              accessible, visually appealing, and maintainable digital
+              experiences that help businesses and individuals establish a
+              strong online presence.
+            </p>
+            <ul>
+              <li><i class="fas fa-check"></i> Custom Website Development</li>
+              <li>
+                <i class="fas fa-check"></i> Responsive Across All Devices
+              </li>
+              <li><i class="fas fa-check"></i> Modern UI Implementation</li>
+              <li>
+                <i class="fas fa-check"></i> Clean &amp; Maintainable Code
+              </li>
+              <li><i class="fas fa-check"></i> SEO-Friendly Structure</li>
+              <li><i class="fas fa-check"></i> Performance Optimization</li>
+              <li><i class="fas fa-check"></i> API Integration</li>
+              <li><i class="fas fa-check"></i> Database Connectivity</li>
+              <li><i class="fas fa-check"></i> Deployment &amp; Maintenance</li>
+            </ul>
+          </div>
+
+          <div class="service-card">
+            <span class="icon"><i class="fas fa-mobile-alt"></i></span>
+            <h3>App Development</h3>
+            <p>
+              I develop modern applications with intuitive interfaces and
+              reliable performance. Whether it's a desktop application or a
+              cross-platform solution, I focus on usability, clean architecture,
+              and scalable development practices.
+            </p>
+            <ul>
+              <li>
+                <i class="fas fa-check"></i> Desktop Application Development
+              </li>
+              <li><i class="fas fa-check"></i> Cross-Platform Solutions</li>
+              <li><i class="fas fa-check"></i> Clean User Interfaces</li>
+              <li><i class="fas fa-check"></i> Database Integration</li>
+              <li><i class="fas fa-check"></i> API Connectivity</li>
+              <li><i class="fas fa-check"></i> Authentication Systems</li>
+              <li><i class="fas fa-check"></i> Performance Optimization</li>
+              <li><i class="fas fa-check"></i> Maintainable Architecture</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="contact-cta">
+          <h2>Ready to bring your idea to life?</h2>
+          <p>Let's work together to create something amazing.</p>
+          <a href="mailto:theeasybadger@gmail.com" class="btn">Get in Touch</a>
+        </div>
+      </section>
+    </main>
 
     <script src="script.js"></script>
   </body>
